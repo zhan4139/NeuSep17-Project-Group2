@@ -10,10 +10,12 @@ public class IncentiveMainFrame extends JFrame {
     private IncentiveSearchPanel searchPanel;
     private IncentiveDisplay listPanel;
     private IncentiveToolPanel toolPanel;
+    private String dealerID;
 
-    public IncentiveMainFrame() throws IOException {
+    public IncentiveMainFrame(String dealerID) throws IOException {
 
         super("Manage Incentives");
+        this.dealerID = dealerID;
         setFrame();
         createPanel();
         setBorderLayout();
@@ -45,20 +47,20 @@ public class IncentiveMainFrame extends JFrame {
         add(searchPanel, BorderLayout.NORTH);
         add(toolPanel, BorderLayout.SOUTH);
         add(filterPanel, BorderLayout.WEST);
-        add(listPanel, BorderLayout.EAST);
+        add(listPanel, BorderLayout.CENTER);
     }
 
     private void createPanel() {
         //panel instance
         filterPanel = new IncentiveFilterPanel();
         searchPanel = new IncentiveSearchPanel();
-        listPanel = new IncentiveDisplay();
+        listPanel = new IncentiveDisplay(dealerID);
         JTable table = listPanel.getIncentive_list().get_table();
-        toolPanel = new IncentiveToolPanel(table);
+        toolPanel = new IncentiveToolPanel(table,dealerID);
     }
 
     private void setFrame() {
-        setSize(1200, 800);
+        setSize(1920, 1200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }

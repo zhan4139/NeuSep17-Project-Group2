@@ -6,6 +6,7 @@ import com.neuSep17.service.IncentiveServiceAPI_Test;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ivTableModel implements TableModel {
@@ -17,7 +18,9 @@ public class ivTableModel implements TableModel {
         this.vehicles = vehicles;
         this.incentiveServiceAPI_test = incentiveServiceAPI_test;
         this.selects = new Boolean[vehicles.size()];
+        Arrays.fill(selects,false);
     }
+
 
     public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
@@ -96,7 +99,7 @@ public class ivTableModel implements TableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        System.out.println("!!!!!!!!!!!!"+rowIndex+"--"+columnIndex);
+        //System.out.println("!!!!!!!!!!!!"+rowIndex+"--"+columnIndex);
         if(columnIndex==0){
             selects[rowIndex] = (Boolean)aValue;
             return;

@@ -1,5 +1,6 @@
 package com.neuSep17.ui.dealerScreen;
 
+import com.neuSep17.ui.inventoryList.CenterSection.DealerMainWindow;
 import com.neuSep17.ui.manageIncentives.IncentiveMainFrame;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public class DealerScreen extends JFrame {
     private String selectedDearlerID;
     private String screenTitleText;
     private JLabel screenTitle;
-    private JButton mngInvButton, mngIncButton;
+    private JButton mngInvButton, mngIncButton, exitButton;
 
 
     public DealerScreen(String selectedDearlerID) throws HeadlessException, FileNotFoundException, UnsupportedEncodingException {
@@ -40,6 +41,11 @@ public class DealerScreen extends JFrame {
         mngIncButton = new JButton("Manage Incentive");
         mngIncButton.setFont(new Font("Default", Font.PLAIN, 20));
         mngIncButton.setForeground(Color.DARK_GRAY);
+
+        exitButton = new JButton("Exit");
+        exitButton.setFont(new Font("Default", Font.PLAIN, 20));
+        exitButton.setForeground(Color.DARK_GRAY);
+
     }
 
     private void addComponentsUsingGridBagLayout() throws FileNotFoundException, UnsupportedEncodingException {
@@ -70,7 +76,7 @@ public class DealerScreen extends JFrame {
         gbc.ipady = 15;
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.insets = new Insets(2, 250, 0, 250);
+        gbc.insets = new Insets(0, 100, 0, 100);
         backgroundLabel.add(mngInvButton, gbc);
 
         gbc.gridwidth =1;
@@ -78,14 +84,25 @@ public class DealerScreen extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 2;
         backgroundLabel.add(mngIncButton, gbc);
+
+        gbc.gridwidth =1;
+        gbc.gridheight = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.insets = new Insets(100, 100, 0, 100);
+        backgroundLabel.add(exitButton, gbc);
     }
 
     private void addListener() {
 
         ManageInventory mngInv = new ManageInventory();
-        ManageIncentive mngInc = new ManageIncentive();
         mngInvButton.addActionListener(mngInv);
+
+        ManageIncentive mngInc = new ManageIncentive();
         mngIncButton.addActionListener(mngInc);
+
+        ExitAL exitAL = new ExitAL();
+        exitButton.addActionListener(exitAL);
     }
 
     class ManageInventory implements ActionListener {
@@ -93,9 +110,12 @@ public class DealerScreen extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 //          waiting Team6's final version
-//            new DealerMainWindow();
+            try {
+                new DealerMainWindow(selectedDearlerID);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             System.out.println("You have choosed " + selectedDearlerID + ", Close Dealer Screen -> Open Dealer Inventory Screen");
-            dispose();
         }
     }
 
@@ -105,12 +125,19 @@ public class DealerScreen extends JFrame {
         public void actionPerformed(ActionEvent e) {
 //          waiting Team2's final version
             try {
-                new IncentiveMainFrame();
+                new IncentiveMainFrame(selectedDearlerID);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
             System.out.println("You have choosed " + selectedDearlerID + ", Close Dealer Screen -> Open Dealer Incentive Screen");
-//            dispose();
+        }
+    }
+
+    class ExitAL implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new DealerLogin();
         }
     }
 

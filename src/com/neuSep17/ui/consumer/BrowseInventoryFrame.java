@@ -60,12 +60,19 @@ public class BrowseInventoryFrame extends JFrame implements Runnable
 
     public BrowseInventoryFrame(ConsumerScreen consumerScreen, InventoryServiceAPI_Test invsAPI)
     {
-        setTitle("Browse Inventory of " + invsAPI.getFileName().split("/")[1] + " dealer");
+        if (invsAPI.getFileName() != null)
+        {
+            setTitle("Browse Inventory of dealer: " + invsAPI.getFileName().split("/")[1]);
+        }
+        else
+        {
+            setTitle("Browse Inventory of All dealers");
+        }
 
         this.consumerScreen = consumerScreen;
         this.invsAPI = invsAPI;
 
-        incsAPI = new IncentiveServiceAPI_Test("data/IncentiveSample.txt");
+        this.incsAPI = new IncentiveServiceAPI_Test("data/IncentiveSample.txt");
         this.cache = new HashMap<Vehicle, ImageIcon>();
         this.toDisplay = new ArrayList<Vehicle>();
         setPage(0);
@@ -209,7 +216,7 @@ public class BrowseInventoryFrame extends JFrame implements Runnable
         Image notfound;
         try
         {
-            notfound = ImageIO.read(new File("src/com/neuSep17/ui/consumer/imagenotfound.jpg"));
+            notfound = ImageIO.read(new File("data/images/imagenotfound.jpg"));
         }
         catch (IOException e)
         {
@@ -265,11 +272,13 @@ public class BrowseInventoryFrame extends JFrame implements Runnable
         protected void process(List<Integer> finished)
         {
             cacheProgress.setValue(finished.get(finished.size() - 1));
+            
         }
 
         protected void done()
         {
             System.out.println("update finished");
+            cacheProgress.setString("All image cached!");
         }
     }
 

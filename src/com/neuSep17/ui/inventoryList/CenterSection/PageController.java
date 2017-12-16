@@ -38,6 +38,10 @@ public class PageController<T> {
         return select();
     }
 
+    public void setCurentPageIndex(int curentPageIndex) {
+        this.curentPageIndex = curentPageIndex;
+    }
+
     public List<T> setLastPage() {
         curentPageIndex = pageCount;
         return select();
@@ -95,6 +99,8 @@ public class PageController<T> {
         if (targetPageIndex<=pageCount&&targetPageIndex>=1) {
             curentPageIndex = targetPageIndex;
         }
+        else if(targetPageIndex>pageCount) curentPageIndex = pageCount;
+        else if(targetPageIndex<1) curentPageIndex = 1;
         return select();
     }
 
